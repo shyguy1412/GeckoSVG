@@ -1,0 +1,1 @@
+import './geckosvg.test';

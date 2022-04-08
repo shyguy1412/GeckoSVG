@@ -1,12 +1,46 @@
 import './types';
 
 export class GeckoSVG extends HTMLElement {
-    width!: number;
-    height!: number;
     fill!: string;
+
+    set width(width: number) {
+        if(!Number.isInteger(width)) width = 0;
+        this.setAttribute('width', width + '');
+    }
+
+    get width(){
+        return Number.parseInt(this.getAttribute('width')!);
+    }
+
+    set height(height: number) {
+        if(!Number.isInteger(height)) height = 0;
+        this.setAttribute('height', height + '');
+    }
+
+    get height(){
+        return Number.parseInt(this.getAttribute('height')!);
+    }
 
     constructor() {
         super();
+
+        
+        //this observers the width and height attributes to set the styling accordingly
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation, i) => {
+                if (mutation.type != 'attributes') return;
+                const element = mutation.target as HTMLElement;
+                if (mutation.attributeName == 'width')
+                element.style.width = element.getAttribute('width') + 'px';
+                if (mutation.attributeName == 'height')
+                element.style.height = element.getAttribute('height') + 'px';
+            });
+        });
+        
+        observer.observe(this, {
+            attributes: true
+        });
+        
         this.fill = '#eee';
     }
 
@@ -67,10 +101,10 @@ export class GeckoSVG extends HTMLElement {
     /**
      * @param points list of the polygons vertecies
      */
-    polygon(points:{x:number, y:number}[]): SVGPolygonElement{
+    polygon(points: { x: number, y: number }[]): SVGPolygonElement {
         const polygon = this.createShape('polygon');
         let pointList = "";
-        for(const point of points){
+        for (const point of points) {
             pointList += `${point.x},${point.y} `;
         }
         applyAttributes(polygon, {
@@ -89,21 +123,28 @@ export class GeckoSVG extends HTMLElement {
         return rect;
     }
 
+    /**
+     * 
+     * @param width width of element in px
+     * @param height height of element in px
+     * @returns created GeckoSVG element
+     */
     static createElement(width = 0, height = 0): GeckoSVG {
         const el = document.createElement('gecko-svg') as GeckoSVG;
+
         el.width = width;
-        el.height = height;
+        el.height = height
+
+        //create root <svg> element and append it to <gecko-svg>
         const root = GeckoSVG.createSVGElement('svg');
         root.setAttribute('viewBox', `0 0 ${width} ${height}`);
-        root.setAttribute('width', 100/3+'%')
         el.append(root);
         return el;
     }
 
     //shorthand for document.createElementNS('http://www.w3.org/2000/svg', type)
     static createSVGElement<T extends GeckoSVGElementType>(type: T): GeckoSVGElement<T> {
-        //@ts-ignore should work fine
-        return document.createElementNS('http://www.w3.org/2000/svg', type) as GeckoSVGElement<T>;
+        return document.createElementNS('http://www.w3.org/2000/svg', 'type') as GeckoSVGElement<T>;
     }
 
 
@@ -125,6 +166,13 @@ export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElem
 
 if (!window.customElements.get('gecko-svg')) {
     window.customElements.define('gecko-svg', GeckoSVG);
+    const style = document.createElement('style');
+    style.textContent = `
+        gecko-svg{
+            display: inline-block;
+        }
+    `;
+    document.body.appendChild(style);
 } else {
     console.warn('[GeckoSVG] gecko-svg is already defined');
 }

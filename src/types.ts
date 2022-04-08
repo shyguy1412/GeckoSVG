@@ -21,11 +21,11 @@ type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
 
 type GeckoSVGElement<T extends GeckoSVGElementType> =
     T extends GeckoSVGShapeType ? GeckoSVGShapeElement<T> :
-    T extends 'svg' ? SVGElement :
+    T extends 'svg' ? SVGSVGElement :
     never;
 
 type GeckoSVGElementOptions<T extends GeckoSVGElementType> =
-    T extends 'svg' ? GeckoSVGRootElementOptions :
+    T extends 'svg' ? GeckoSVGSVGElementOptions :
     T extends 'rect' ? GeckoSVGRectElementOptions :
     T extends 'circle' ? GeckoSVGCircleElementOptions :
     T extends 'ellipse' ? GeckoSVGEllipseElementOptions :
@@ -99,7 +99,7 @@ interface GeckoSVGPresentationAttributes {
     'writing-mode'?: string,
 }
 
-interface GeckoSVGRootElementOptions {
+interface GeckoSVGSVGElementOptions {
     viewBox: string,
 }
 

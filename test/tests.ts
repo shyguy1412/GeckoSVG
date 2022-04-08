@@ -1,1 +1,1 @@
-import './geckosvg.test';
+require('./geckosvg.test');

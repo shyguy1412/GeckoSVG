@@ -1,7 +1,6 @@
 require('jsdom-global')()
 import { expect } from 'chai';
-import { applyAttributes, createSVGElement, createSVGRectElement } from '../src/geckodom';
-import { GeckoSVG } from '../src/geckosvg';
+import { GeckoSVG, applyAttributes } from '../src/geckosvg';
 
 describe('GeckoSVG', () => {
 
@@ -15,12 +14,12 @@ describe('GeckoSVG', () => {
 
         describe('Gecko DOM interface', () =>{
             it('can create generic SVGElement', () => {
-                const svgElement = createSVGElement('rect');
+                const svgElement = GeckoSVG.createSVGElement('rect');
                 expect(svgElement.innerHTML).to.equal('', 'Should be empty element');
             });
 
             it('can apply attributes', () => {
-                const svgElement = createSVGElement('rect');
+                const svgElement = GeckoSVG.createSVGElement('rect');
                 applyAttributes(svgElement, {
                     x: 0,
                     y: 0,
@@ -31,11 +30,6 @@ describe('GeckoSVG', () => {
                 expect(svgElement.getAttribute('y')).to.equal('0');
                 expect(svgElement.getAttribute('width')).to.equal('100');
                 expect(svgElement.getAttribute('height')).to.equal('40');
-            });
-
-            it('can create SVGRectElement', () => {
-                const rectElement = createSVGRectElement();
-                expect(rectElement.innerHTML).to.equal('', 'Should be empty element');
             });
         });
 
@@ -49,7 +43,7 @@ describe('GeckoSVG', () => {
 
             it('can create rectangle', () => {
                 //not defined for weird reasons.
-                //svg.rect(0, 0, 100, 100);
+                svg.rect(0, 0, 100, 100);
             });
         });
 

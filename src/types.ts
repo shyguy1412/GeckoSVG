@@ -1,4 +1,4 @@
-type GeckoSVGShape =
+type GeckoSVGShapeType =
     'rect' |
     'circle' |
     'ellipse' |
@@ -6,7 +6,11 @@ type GeckoSVGShape =
     'line' |
     'polyline';
 
-type GeckoSVGShapeElement<T extends GeckoSVGShape> =
+type GeckoSVGElementType = 
+    GeckoSVGShapeType |
+    'svg';
+
+type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
     T extends 'rect' ? SVGRectElement :
     T extends 'circle' ? SVGCircleElement :
     T extends 'ellipse' ? SVGEllipseElement :
@@ -15,21 +19,19 @@ type GeckoSVGShapeElement<T extends GeckoSVGShape> =
     T extends 'polyline' ? SVGPolylineElement :
     never;
 
-type GeckoSVGElement =
-    SVGRectElement |
-    SVGCircleElement |
-    SVGEllipseElement |
-    SVGPolygonElement |
-    SVGLineElement |
-    SVGPolylineElement;
+type GeckoSVGElement<T extends GeckoSVGElementType> =
+    T extends GeckoSVGShapeType ? GeckoSVGShapeElement<T> :
+    T extends 'svg' ? SVGElement :
+    never;
 
-type GeckoSVGElementOptions<T extends GeckoSVGElement> =
-    T extends SVGRectElement ? GeckoSVGRectElementOptions :
-    T extends SVGCircleElement ? GeckoSVGCircleElementOptions :
-    T extends SVGEllipseElement ? GeckoSVGEllipseElementOptions :
-    T extends SVGPolygonElement ? GeckoSVGPolygonElementOptions :
-    T extends SVGLineElement ? GeckoSVGLineElementOptions :
-    T extends SVGPolylineElement ? GeckoSVGPolylineElementOptions :
+type GeckoSVGElementOptions<T extends GeckoSVGElementType> =
+    T extends 'svg' ? GeckoSVGRootElementOptions :
+    T extends 'rect' ? GeckoSVGRectElementOptions :
+    T extends 'circle' ? GeckoSVGCircleElementOptions :
+    T extends 'ellipse' ? GeckoSVGEllipseElementOptions :
+    T extends 'polygon' ? GeckoSVGPolygonElementOptions :
+    T extends 'line' ? GeckoSVGLineElementOptions :
+    T extends 'polyline' ? GeckoSVGPolylineElementOptions :
     never;
 
 interface GeckoSVGPresentationAttributes {
@@ -95,6 +97,10 @@ interface GeckoSVGPresentationAttributes {
     'visibility'?: string,
     'word-spacing'?: string,
     'writing-mode'?: string,
+}
+
+interface GeckoSVGRootElementOptions {
+    viewBox: string,
 }
 
 interface GeckoSVGRectElementOptions extends GeckoSVGPresentationAttributes {

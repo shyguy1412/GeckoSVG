@@ -3,10 +3,8 @@
    "version": "0.0.1",
    "main": "dist/geckosvg.js",
    "scripts": {
-      "vite": "vite",
       "watch": "tsc -w",
-      "test": "npx serve test",
-      "test:watch": "tsc -w -p tsconfig.test.json"
+      "test": "vite"
    },
    "devDependencies": {
       "@types/chai": "^4.3.0",

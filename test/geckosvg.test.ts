@@ -1,4 +1,3 @@
-require('jsdom-global')()
 import { expect } from 'chai';
 import { GeckoSVG, applyAttributes } from '../src/geckosvg';
 

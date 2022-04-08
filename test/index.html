@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -15,7 +16,7 @@
       mocha.setup('bdd');
       mocha.checkLeaks();
     </script>
-    <script src="geckosvg.test.ts"></script>
+    <script type="module" src="./tests.ts"></script>
     <script class="mocha-exec">
       mocha.run();
     </script>

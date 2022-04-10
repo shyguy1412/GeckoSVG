@@ -6,8 +6,12 @@ type GeckoSVGShapeType =
     'line' |
     'polyline';
 
-type GeckoSVGElementType = 
+type GeckoSVGRenderableType =
     GeckoSVGShapeType |
+    'text';
+
+type GeckoSVGElementType =
+    GeckoSVGRenderableType |
     'svg';
 
 type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
@@ -19,19 +23,33 @@ type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
     T extends 'polyline' ? SVGPolylineElement :
     never;
 
-type GeckoSVGElement<T extends GeckoSVGElementType> =
+type GeckoSVGRenderableElement<T extends GeckoSVGRenderableType> =
     T extends GeckoSVGShapeType ? GeckoSVGShapeElement<T> :
+    T extends 'text' ? SVGTextElement :
+    never;
+
+type GeckoSVGElement<T extends GeckoSVGElementType> =
+    T extends GeckoSVGRenderableType ? GeckoSVGRenderableElement<T> :
     T extends 'svg' ? SVGSVGElement :
     never;
 
-type GeckoSVGElementOptions<T extends GeckoSVGElementType> =
-    T extends 'svg' ? GeckoSVGSVGElementOptions :
+type GeckoSVGShapeElementOptions<T extends GeckoSVGShapeType> =
     T extends 'rect' ? GeckoSVGRectElementOptions :
     T extends 'circle' ? GeckoSVGCircleElementOptions :
     T extends 'ellipse' ? GeckoSVGEllipseElementOptions :
     T extends 'polygon' ? GeckoSVGPolygonElementOptions :
     T extends 'line' ? GeckoSVGLineElementOptions :
     T extends 'polyline' ? GeckoSVGPolylineElementOptions :
+    never;
+
+type GeckoSVGRenderableElementOptions<T extends GeckoSVGRenderableType> =
+    T extends GeckoSVGShapeType ? GeckoSVGShapeElementOptions<T> :
+    T extends 'text' ? GeckoSVGTextElementOptions :
+    never;
+
+type GeckoSVGElementOptions<T extends GeckoSVGElementType> =
+    T extends GeckoSVGRenderableType ? GeckoSVGRenderableElementOptions<T> :
+    T extends 'svg' ? GeckoSVGSVGElementOptions :
     never;
 
 interface GeckoSVGPresentationAttributes {
@@ -143,7 +161,13 @@ interface GeckoSVGPolylineElementOptions extends GeckoSVGPresentationAttributes 
     pathLength?: number,
 }
 
-interface GeckoSVGElementConstructor extends CustomElementConstructor{
-    tag:string,
+interface GeckoSVGTextElementOptions extends GeckoSVGPresentationAttributes {
+    x:number,
+    y:number,
+    dx:number,
+    dy:number,
+    rotate:number[],
+    lengthAdjust:number,
+    textLength:number,
 }
 

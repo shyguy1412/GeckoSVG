@@ -1,5 +1,10 @@
 import './types';
 
+interface GeckoSVGElementConstructor {
+    new(): GeckoSVG;
+    tag: string,
+}
+
 export class GeckoSVG extends HTMLElement {
     fill!: string;
 
@@ -7,7 +12,7 @@ export class GeckoSVG extends HTMLElement {
         if (this == GeckoSVG)
             return 'gecko-svg';
         else
-            return this.name.toLowerCase() + '-svg';
+            return this.name.toLowerCase().replace(/svg$/, '') + '-svg';
     }
 
     set width(width: number) {
@@ -63,7 +68,7 @@ export class GeckoSVG extends HTMLElement {
     }
 
     //initilise component after creation
-    init(){};
+    init() { };
 
     // Basic shapes //
 
@@ -75,7 +80,7 @@ export class GeckoSVG extends HTMLElement {
      * @param height Height of rectangle
      */
     rect(x: number, y: number, width: number, height: number): SVGRectElement {
-        const rect = this.createShape('rect');
+        const rect = this.createRenderable('rect');
         applyAttributes(rect, {
             x,
             y,
@@ -93,7 +98,7 @@ export class GeckoSVG extends HTMLElement {
      * @param ry second radius of the ellipse
      */
     ellipse(cx: number, cy: number, rx: number, ry: number): SVGEllipseElement {
-        const ellipse = this.createShape('ellipse');
+        const ellipse = this.createRenderable('ellipse');
         applyAttributes(ellipse, {
             cx,
             cy,
@@ -110,7 +115,7 @@ export class GeckoSVG extends HTMLElement {
      * @param r radius of the circle
      */
     circle(cx: number, cy: number, r: number): SVGCircleElement {
-        const circle = this.createShape('circle');
+        const circle = this.createRenderable('circle');
         applyAttributes(circle, {
             cx,
             cy,
@@ -123,7 +128,7 @@ export class GeckoSVG extends HTMLElement {
      * @param points list of the polygons vertecies
      */
     polygon(points: { x: number, y: number }[]): SVGPolygonElement {
-        const polygon = this.createShape('polygon');
+        const polygon = this.createRenderable('polygon');
         let pointList = '';
         for (const point of points) {
             pointList += `${point.x},${point.y} `;
@@ -134,21 +139,32 @@ export class GeckoSVG extends HTMLElement {
         return polygon;
     }
 
-    static create(): GeckoSVG {
-        const el = document.createElement(this.tag) as GeckoSVG;
-        el.width = 0;
+    text(content: string, x: number, y: number): SVGTextElement {
+        const text = this.createRenderable('text');
+        applyAttributes(text, {
+            x,
+            y,
+        });
+        text.textContent = content;
+        return text;
+    }
+
+    static create<T extends GeckoSVG>(type?: new () => T): T {
+        const el = document.createElement(
+            type ? (type as unknown as typeof GeckoSVG).tag : this.tag
+        ) as T;        el.width = 0;
         el.height = 0;
         el.init();
         return el;
     }
 
-    private createShape<T extends GeckoSVGShapeType>(type: T): GeckoSVGShapeElement<T> {
-        const rect = GeckoSVG.createSVGElement(type) as GeckoSVGShapeElement<T>;
+    private createRenderable<T extends GeckoSVGRenderableType>(type: T): GeckoSVGRenderableElement<T> {
+        const rect = GeckoSVG.createSVGElement(type) as GeckoSVGRenderableElement<T>;
 
-        if (this.root.firstElementChild)
-            this.root.insertBefore(this.root.firstElementChild, rect);
-        else
-            this.root.append(rect);
+        // if (this.root.firstElementChild)
+        //     this.root.insertBefore(this.root.firstElementChild, rect);
+        // else
+        this.root.append(rect);
         return rect;
     }
 
@@ -190,6 +206,10 @@ export function registerComponent(constructor: GeckoSVGElementConstructor) {
         style.textContent = `
         ${constructor.tag}{
             display: inline-block;
+            user-select: none;
+        }
+        ${constructor.tag} svg{
+            overflow: visible;
         }`;
         document.body.appendChild(style);
     }

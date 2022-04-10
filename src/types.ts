@@ -143,3 +143,7 @@ interface GeckoSVGPolylineElementOptions extends GeckoSVGPresentationAttributes 
     pathLength?: number,
 }
 
+interface GeckoSVGElementConstructor extends CustomElementConstructor{
+    tag:string,
+}
+

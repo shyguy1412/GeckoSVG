@@ -1,51 +1,81 @@
 import { expect } from 'chai';
-import { GeckoSVG, applyAttributes } from '../src/geckosvg';
+import { GeckoSVG, applyAttributes, registerComponent } from '../src/geckosvg';
 
 describe('GeckoSVG', () => {
 
-    it('can instantiate', () => {
-        const svg = GeckoSVG.createElement(100, 100);
-        expect(svg.width).to.equal(100);
-        expect(svg.height).to.equal(100);
+    
+    describe('Base class', () => {
+        const testDiv = document.createElement('div');
+
+        before(() => {
+            document.body.append(testDiv);
+        });
+
+        after(() => {
+            testDiv.remove();
+        });
+
+        it('can instantiate', () => {
+            const svg = GeckoSVG.create();
+            expect(svg instanceof GeckoSVG).to.equal(true);
+        });
+
+        it('can be attached to dom', () => {
+            const svg = GeckoSVG.create();
+            testDiv.append(svg);
+            expect(document.querySelector('gecko-svg')).to.equal(svg);
+            svg.remove();
+            expect(document.querySelector('gecko-svg')).to.equal(null);
+        });
+
+        describe('can be extended', () => {
+            class Test extends GeckoSVG {
+            }
+
+            it('can be registered', () => {
+                registerComponent(Test);
+            });
+
+            it('can be created', () => {
+                const svg = Test.create();
+                expect(svg instanceof Test).to.equal(true);
+            });
+
+            it('can be attached to dom', () => {
+                const svg = Test.create();
+                testDiv.append(svg);
+                expect(document.querySelector('test-svg')).to.equal(svg);
+                svg.remove();
+                expect(document.querySelector('test-svg')).to.equal(null);
+            });
+
+        })
+
     });
 
     describe('SVG API', () => {
 
-        describe('Gecko DOM interface', () =>{
-            it('can create generic SVGElement', () => {
-                const svgElement = GeckoSVG.createSVGElement('rect');
-                expect(svgElement.innerHTML).to.equal('', 'Should be empty element');
-            });
+        const svg = GeckoSVG.create();
+        const testDiv = document.createElement('div');
+        
+        before(() => {
+            svg.width = 500;
+            svg.height = 500;
+    
+            document.body.append(testDiv);
+            testDiv.append(svg);
 
-            it('can apply attributes', () => {
-                const svgElement = GeckoSVG.createSVGElement('rect');
-                applyAttributes(svgElement, {
-                    x: 0,
-                    y: 0,
-                    width: 100,
-                    height: 40
-                });
-                expect(svgElement.getAttribute('x')).to.equal('0');
-                expect(svgElement.getAttribute('y')).to.equal('0');
-                expect(svgElement.getAttribute('width')).to.equal('100');
-                expect(svgElement.getAttribute('height')).to.equal('40');
-            });
         });
 
-        describe('GeckoSVG class', () => {
-
-            let svg:GeckoSVG;
-
-            beforeEach(() => {
-                svg = GeckoSVG.createElement(500, 500);
-            });
-
-            it('can create rectangle', () => {
-                //not defined for weird reasons.
-                svg.rect(0, 0, 100, 100);
-            });
+        after(() => {
+            // testDiv.remove();
         });
 
-    })
+        it('can create rectangle', () => {
+            expect(svg.querySelector('rect')).to.be.equal(null);
+            const rect = svg.rect(0, 0, 100, 100);
+            expect(svg.querySelector('rect')).to.be.equal(rect);
+        });
+    });
 
 });

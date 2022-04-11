@@ -14,24 +14,34 @@ type GeckoSVGElementType =
     GeckoSVGRenderableType |
     'svg';
 
-type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
-    T extends 'rect' ? SVGRectElement :
-    T extends 'circle' ? SVGCircleElement :
-    T extends 'ellipse' ? SVGEllipseElement :
-    T extends 'polygon' ? SVGPolygonElement :
-    T extends 'line' ? SVGLineElement :
-    T extends 'polyline' ? SVGPolylineElement :
-    never;
+// type GeckoSVGShapeElement<T extends GeckoSVGShapeType> =
+//     T extends 'rect' ? SVGRectElement :
+//     T extends 'circle' ? SVGCircleElement :
+//     T extends 'ellipse' ? SVGEllipseElement :
+//     T extends 'polygon' ? SVGPolygonElement :
+//     T extends 'line' ? SVGLineElement :
+//     T extends 'polyline' ? SVGPolylineElement :
+//     never;
 
-type GeckoSVGRenderableElement<T extends GeckoSVGRenderableType> =
-    T extends GeckoSVGShapeType ? GeckoSVGShapeElement<T> :
-    T extends 'text' ? SVGTextElement :
-    never;
+// type GeckoSVGRenderableElement<T extends GeckoSVGRenderableType> =
+//     T extends GeckoSVGShapeType ? GeckoSVGShapeElement<T> :
+//     T extends 'text' ? SVGTextElement :
+//     never;
 
-type GeckoSVGElement<T extends GeckoSVGElementType> =
-    T extends GeckoSVGRenderableType ? GeckoSVGRenderableElement<T> :
-    T extends 'svg' ? SVGSVGElement :
-    never;
+// type GeckoSVGElement<T extends GeckoSVGElementType> =
+//     T extends GeckoSVGRenderableType ? GeckoSVGRenderableElement<T> :
+//     T extends 'svg' ? SVGSVGElement :
+//     never;
+
+interface GeckoSVGElement extends HTMLElement{
+   tag:string,
+   init:()=>void,
+}
+
+interface GeckoSVGElementConstructor {
+    new(): GeckoSVGElement;
+    tag: string,
+}
 
 type GeckoSVGShapeElementOptions<T extends GeckoSVGShapeType> =
     T extends 'rect' ? GeckoSVGRectElementOptions :
@@ -170,4 +180,3 @@ interface GeckoSVGTextElementOptions extends GeckoSVGPresentationAttributes {
     lengthAdjust:number,
     textLength:number,
 }
-

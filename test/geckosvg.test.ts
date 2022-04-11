@@ -3,7 +3,7 @@ import { GeckoSVG, applyAttributes, registerComponent } from '../src/geckosvg';
 
 describe('GeckoSVG', () => {
 
-    
+
     describe('Base class', () => {
         const testDiv = document.createElement('div');
 
@@ -55,13 +55,13 @@ describe('GeckoSVG', () => {
 
     describe('SVG API', () => {
 
-        const svg = GeckoSVG.create();
+        const svg = GeckoSVG.create<GeckoSVG>();
         const testDiv = document.createElement('div');
-        
+
         before(() => {
             svg.width = 500;
             svg.height = 500;
-    
+
             document.body.append(testDiv);
             testDiv.append(svg);
 
@@ -72,9 +72,9 @@ describe('GeckoSVG', () => {
         });
 
         it('can create rectangle', () => {
-            expect(svg.querySelector('rect')).to.be.equal(null);
+            expect(svg.querySelector('gecko-rect')).to.be.equal(null);
             const rect = svg.rect(0, 0, 100, 100);
-            expect(svg.querySelector('rect')).to.be.equal(rect);
+            expect(svg.querySelector('gecko-rect')).to.be.equal(rect);
         });
     });
 

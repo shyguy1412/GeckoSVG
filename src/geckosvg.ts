@@ -1,11 +1,9 @@
 import './types';
 
-interface GeckoSVGElementConstructor {
-    new(): GeckoSVG;
-    tag: string,
-}
+import {GeckoSVGElement} from './elements/GeckoSVGElement';
+import {GeckoSVGRectElement} from './elements/renderable/shape/GeckoSVGRectElement';
 
-export class GeckoSVG extends HTMLElement {
+export class GeckoSVG extends GeckoSVGElement{
     fill!: string;
 
     static get tag() {
@@ -36,8 +34,8 @@ export class GeckoSVG extends HTMLElement {
     get root() {
         let root = this.querySelector('svg');
         if (!root) {
-            root = GeckoSVG.createSVGElement('svg');
-            this.append(root);
+            root = createSVGElement('svg') as SVGSVGElement;
+            this.append(root!);
         }
         return root!;
     }
@@ -63,6 +61,8 @@ export class GeckoSVG extends HTMLElement {
             attributes: true
         });
 
+        // observer.disconnect();
+
 
         this.fill = '#eee';
     }
@@ -73,31 +73,36 @@ export class GeckoSVG extends HTMLElement {
     // Basic shapes //
 
     /**
-     * 
+     *
      * @param x X coordinate of the rectangle
      * @param y Y coordinate of the rectangle
      * @param width Width of rectangle
      * @param height Height of rectangle
      */
-    rect(x: number, y: number, width: number, height: number): SVGRectElement {
-        const rect = this.createRenderable('rect');
-        applyAttributes(rect, {
-            x,
-            y,
-            width,
-            height
-        });
+    rect(x: number, y: number, width: number, height: number):GeckoSVGRectElement {
+        // const rect = this.createRenderable('rect');
+        // applyAttributes(rect, {
+        //     x,
+        //     y,
+        //     width,
+        //     height
+        // });
+        // return rect;
+        const rect = GeckoSVG.create(GeckoSVGRectElement);
+        console.log(rect);
+
+        this.root.appendChild(rect);
         return rect;
     }
 
     /**
-     * 
+     *
      * @param cx X coordinate of the ellipse
      * @param cy Y coordinate of the ellipse
      * @param rx first radius of the ellipse
      * @param ry second radius of the ellipse
      */
-    ellipse(cx: number, cy: number, rx: number, ry: number): SVGEllipseElement {
+    ellipse(cx: number, cy: number, rx: number, ry: number) {
         const ellipse = this.createRenderable('ellipse');
         applyAttributes(ellipse, {
             cx,
@@ -109,12 +114,12 @@ export class GeckoSVG extends HTMLElement {
     }
 
     /**
-     * 
+     *
      * @param cx X coordinate of the circle
      * @param cy Y coordinate of the circle
      * @param r radius of the circle
      */
-    circle(cx: number, cy: number, r: number): SVGCircleElement {
+    circle(cx: number, cy: number, r: number) {
         const circle = this.createRenderable('circle');
         applyAttributes(circle, {
             cx,
@@ -127,7 +132,7 @@ export class GeckoSVG extends HTMLElement {
     /**
      * @param points list of the polygons vertecies
      */
-    polygon(points: { x: number, y: number }[]): SVGPolygonElement {
+    polygon(points: { x: number, y: number }[]) {
         const polygon = this.createRenderable('polygon');
         let pointList = '';
         for (const point of points) {
@@ -139,7 +144,7 @@ export class GeckoSVG extends HTMLElement {
         return polygon;
     }
 
-    text(content: string, x: number, y: number): SVGTextElement {
+    text(content: string, x: number, y: number) {
         const text = this.createRenderable('text');
         applyAttributes(text, {
             x,
@@ -149,17 +154,8 @@ export class GeckoSVG extends HTMLElement {
         return text;
     }
 
-    static create<T extends GeckoSVG>(type?: new () => T): T {
-        const el = document.createElement(
-            type ? (type as unknown as typeof GeckoSVG).tag : this.tag
-        ) as T;        el.width = 0;
-        el.height = 0;
-        el.init();
-        return el;
-    }
-
-    private createRenderable<T extends GeckoSVGRenderableType>(type: T): GeckoSVGRenderableElement<T> {
-        const rect = GeckoSVG.createSVGElement(type) as GeckoSVGRenderableElement<T>;
+    private createRenderable<T extends GeckoSVGRenderableType>(type: T) {
+        const rect = createSVGElement(type);
 
         // if (this.root.firstElementChild)
         //     this.root.insertBefore(this.root.firstElementChild, rect);
@@ -168,12 +164,13 @@ export class GeckoSVG extends HTMLElement {
         return rect;
     }
 
-    //shorthand for document.createElementNS('http://www.w3.org/2000/svg', type)
-    static createSVGElement<T extends GeckoSVGElementType>(type: T): GeckoSVGElement<T> {
-        return document.createElementNS('http://www.w3.org/2000/svg', type) as GeckoSVGElement<T>;
-    }
 
 
+}
+
+//shorthand for document.createElementNS('http://www.w3.org/2000/svg', type)
+export function createSVGElement(type:string) {
+   return document.createElementNS('http://www.w3.org/2000/svg', type);
 }
 
 /**
@@ -181,7 +178,7 @@ export class GeckoSVG extends HTMLElement {
  * @params svg SVGElement to apply attributes to
  * @params attributes set of attributes to apply
  */
-export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElement<T>, attributes: GeckoSVGElementOptions<T>) {
+export function applyAttributes<T extends GeckoSVGElementType>(svg: SVGElement, attributes: GeckoSVGElementOptions<T>) {
     const attributesList = Object.keys(attributes);
     for (const attribute of attributesList) {
         if (attribute != null && attribute != undefined)
@@ -191,11 +188,10 @@ export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElem
 }
 
 export function registerComponent(constructor: GeckoSVGElementConstructor) {
-    if (!(constructor.prototype instanceof GeckoSVG || constructor === GeckoSVG)) throw new Error(); //TODO: throw error
+    if (!(constructor.prototype instanceof GeckoSVGElement)) throw new Error(); //TODO: throw error
     if (!window.customElements.get(constructor.tag)) {
         window.customElements.define(constructor.tag, constructor);
     } else {
-        if (constructor == GeckoSVG)
             console.warn(`[GeckoSVG] ${constructor.tag} is already defined`);
     }
 

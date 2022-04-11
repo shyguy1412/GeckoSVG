@@ -3,6 +3,7 @@
    "version": "0.0.1",
    "main": "dist/geckosvg.js",
    "scripts": {
+      "prepare": "tsc",
       "watch": "tsc -w",
       "test": "vite"
    },
@@ -22,6 +23,10 @@
    "author": "Nils Ramstöck",
    "description": "A tool for dynamically creating SVG graphics",
    "license": "MIT",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/NilsRamstoeck/GeckoSVG.git"
+   },
    "bugs": {
       "url": "https://github.com/NilsRamstoeck/GeckoSVG/issues"
    },

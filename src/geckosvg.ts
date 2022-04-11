@@ -1,7 +1,5 @@
-import './types';
-
-import {GeckoSVGElement} from './elements/GeckoSVGElement';
-import {GeckoSVGRectElement} from './elements/renderable/shape/GeckoSVGRectElement';
+import { GeckoSVGElement } from '@elements/GeckoSVGElement';
+import {GeckoSVGRectElement} from '@elements/renderable/shape/GeckoSVGRectElement';
 
 export class GeckoSVG extends GeckoSVGElement{
     fill!: string;
@@ -94,76 +92,6 @@ export class GeckoSVG extends GeckoSVGElement{
         this.root.appendChild(rect);
         return rect;
     }
-
-    /**
-     *
-     * @param cx X coordinate of the ellipse
-     * @param cy Y coordinate of the ellipse
-     * @param rx first radius of the ellipse
-     * @param ry second radius of the ellipse
-     */
-    ellipse(cx: number, cy: number, rx: number, ry: number) {
-        const ellipse = this.createRenderable('ellipse');
-        applyAttributes(ellipse, {
-            cx,
-            cy,
-            rx,
-            ry,
-        });
-        return ellipse;
-    }
-
-    /**
-     *
-     * @param cx X coordinate of the circle
-     * @param cy Y coordinate of the circle
-     * @param r radius of the circle
-     */
-    circle(cx: number, cy: number, r: number) {
-        const circle = this.createRenderable('circle');
-        applyAttributes(circle, {
-            cx,
-            cy,
-            r,
-        });
-        return circle;
-    }
-
-    /**
-     * @param points list of the polygons vertecies
-     */
-    polygon(points: { x: number, y: number }[]) {
-        const polygon = this.createRenderable('polygon');
-        let pointList = '';
-        for (const point of points) {
-            pointList += `${point.x},${point.y} `;
-        }
-        applyAttributes(polygon, {
-            points: pointList
-        })
-        return polygon;
-    }
-
-    text(content: string, x: number, y: number) {
-        const text = this.createRenderable('text');
-        applyAttributes(text, {
-            x,
-            y,
-        });
-        text.textContent = content;
-        return text;
-    }
-
-    private createRenderable<T extends GeckoSVGRenderableType>(type: T) {
-        const rect = createSVGElement(type);
-
-        // if (this.root.firstElementChild)
-        //     this.root.insertBefore(this.root.firstElementChild, rect);
-        // else
-        this.root.append(rect);
-        return rect;
-    }
-
 
 
 }

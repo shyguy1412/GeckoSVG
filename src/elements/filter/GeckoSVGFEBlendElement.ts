@@ -1,6 +1,6 @@
 import { GeckoSVGElement } from '@elements/GeckoSVGElement';
 
-export class GeckoSVGFEElement extends GeckoSVGElement {
+export class GeckoSVGFEBlendElement extends GeckoSVGElement<SVGFEBlendElement> {
     constructor(){
         super();
         throw Error('Not implemented yet');

@@ -1,3 +1,4 @@
+import { GeckoSVGRectElement } from '@elements/renderable/shape/GeckoSVGRectElement';
 import { expect } from 'chai';
 import { GeckoSVG, applyAttributes, registerComponent } from '../src/geckosvg';
 
@@ -31,23 +32,23 @@ describe('GeckoSVG', () => {
         describe('can be extended', () => {
             class Test extends GeckoSVG {
             }
-
-            it('can be registered', () => {
-                registerComponent(Test);
-            });
-
-            it('can be created', () => {
-                const svg = Test.create();
-                expect(svg instanceof Test).to.equal(true);
-            });
-
-            it('can be attached to dom', () => {
-                const svg = Test.create();
-                testDiv.append(svg);
-                expect(document.querySelector('test-svg')).to.equal(svg);
-                svg.remove();
-                expect(document.querySelector('test-svg')).to.equal(null);
-            });
+            //
+            // it('can be registered', () => {
+            //     registerComponent(Test);
+            // });
+            //
+            // it('can be created', () => {
+            //     const svg = Test.create();
+            //     expect(svg instanceof Test).to.equal(true);
+            // });
+            //
+            // it('can be attached to dom', () => {
+            //     const svg = Test.create();
+            //     testDiv.append(svg);
+            //     expect(document.querySelector('test-svg')).to.equal(svg);
+            //     svg.remove();
+            //     expect(document.querySelector('test-svg')).to.equal(null);
+            // });
 
         })
 
@@ -70,11 +71,17 @@ describe('GeckoSVG', () => {
         after(() => {
             // testDiv.remove();
         });
-
+        let rect:GeckoSVGRectElement;
         it('can create rectangle', () => {
-            expect(svg.querySelector('gecko-rect')).to.be.equal(null);
-            const rect = svg.rect(0, 0, 100, 100);
-            expect(svg.querySelector('gecko-rect')).to.be.equal(rect);
+            rect = svg.rect(0, -10, 100, 100)
+            .fill('#f32')
+            .stroke('#332dfe');
+        });
+
+        it('can create a element', () => {
+           svg.a()
+           .appendChild(rect)
+           .href('#');
         });
     });
 

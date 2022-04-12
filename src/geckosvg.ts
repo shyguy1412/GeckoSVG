@@ -1,7 +1,7 @@
-import { GeckoSVGElement } from '@elements/GeckoSVGElement';
+import { GeckoSVGAElement } from '@elements/container/GeckoSVGAElement';
 import {GeckoSVGRectElement} from '@elements/renderable/shape/GeckoSVGRectElement';
 
-export class GeckoSVG extends GeckoSVGElement{
+export class GeckoSVG extends HTMLElement{
     fill!: string;
 
     static get tag() {
@@ -86,13 +86,27 @@ export class GeckoSVG extends GeckoSVGElement{
         //     height
         // });
         // return rect;
-        const rect = GeckoSVG.create(GeckoSVGRectElement);
+        const rect = new GeckoSVGRectElement();
         console.log(rect);
 
-        this.root.appendChild(rect);
+        rect.parent(this.root)
+        .pos(x, y)
+        .width(width)
+        .height(height);
         return rect;
     }
 
+    a(){
+      return new GeckoSVGAElement();
+   }
+
+    static create<T extends GeckoSVG>(type?: new () => T): T {
+      const el = document.createElement(
+            type ? (type as unknown as typeof GeckoSVG).tag : this.tag
+      ) as T;
+      el.init();
+      return el;
+    }
 
 }
 
@@ -115,8 +129,8 @@ export function applyAttributes<T extends GeckoSVGElementType>(svg: SVGElement, 
     }
 }
 
-export function registerComponent(constructor: GeckoSVGElementConstructor) {
-    if (!(constructor.prototype instanceof GeckoSVGElement)) throw new Error(); //TODO: throw error
+export function registerComponent(constructor: GeckoSVGConstructor) {
+    // if (!(constructor.prototype instanceof GeckoSVG)) throw new Error(); //TODO: throw error
     if (!window.customElements.get(constructor.tag)) {
         window.customElements.define(constructor.tag, constructor);
     } else {

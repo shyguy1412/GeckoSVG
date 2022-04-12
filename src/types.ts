@@ -1,14 +1,16 @@
+import { GeckoSVG } from "geckosvg";
+
 export { };
 
 declare global {
 
-    interface GeckoSVGElement extends HTMLElement {
-        tag: string,
-        init: () => void,
-    }
+    // interface GeckoSVG extends HTMLElement {
+    //     tag: string,
+    //     init: () => void,
+    // }
 
-    interface GeckoSVGElementConstructor {
-        new(): GeckoSVGElement;
+    interface GeckoSVGConstructor {
+        new(): GeckoSVG;
         tag: string,
     }
     type GeckoSVGShapeType =

@@ -1,6 +1,6 @@
-import { GeckoSVGRectElement } from '@elements/renderable/shape/GeckoSVGRectElement';
 import { expect } from 'chai';
-import { GeckoSVG, applyAttributes, registerComponent } from '../src/geckosvg';
+import { GeckoSVGRectElement } from '../src/elements/renderable/shape/GeckoSVGRectElement';
+import { GeckoSVG, registerComponent } from '../src/geckosvg';
 
 describe('GeckoSVG', () => {
 
@@ -32,23 +32,23 @@ describe('GeckoSVG', () => {
         describe('can be extended', () => {
             class Test extends GeckoSVG {
             }
-            //
-            // it('can be registered', () => {
-            //     registerComponent(Test);
-            // });
-            //
-            // it('can be created', () => {
-            //     const svg = Test.create();
-            //     expect(svg instanceof Test).to.equal(true);
-            // });
-            //
-            // it('can be attached to dom', () => {
-            //     const svg = Test.create();
-            //     testDiv.append(svg);
-            //     expect(document.querySelector('test-svg')).to.equal(svg);
-            //     svg.remove();
-            //     expect(document.querySelector('test-svg')).to.equal(null);
-            // });
+            
+            it('can be registered', () => {
+                registerComponent(Test);
+            });
+            
+            it('can be created', () => {
+                const svg = Test.create();
+                expect(svg instanceof Test).to.equal(true);
+            });
+            
+            it('can be attached to dom', () => {
+                const svg = Test.create();
+                testDiv.append(svg);
+                expect(document.querySelector('test-svg')).to.equal(svg);
+                svg.remove();
+                expect(document.querySelector('test-svg')).to.equal(null);
+            });
 
         })
 

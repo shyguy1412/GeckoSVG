@@ -1,7 +1,7 @@
-import { createSVGElement } from 'geckosvg';
-import { GeckoSVGElement } from '@elements/GeckoSVGElement';
+import { createSVGElement } from '../../../geckosvg';
+import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
-export class GeckoSVGRectElement extends GeckoSVGElement<SVGRectElement>{
+export class GeckoSVGRectElement extends GeckoSVGRenderableElement<SVGRectElement>{
 
    constructor(){
       super();
@@ -21,16 +21,6 @@ export class GeckoSVGRectElement extends GeckoSVGElement<SVGRectElement>{
 
    height(height:number){
       this.$el.setAttribute('height', height+'');
-      return this;
-   }
-
-   fill(color:string){
-      this.$el.setAttribute('fill', color);
-      return this;
-   }
-
-   stroke(color:string){
-      this.$el.setAttribute('stroke', color);
       return this;
    }
 

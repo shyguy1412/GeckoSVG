@@ -1,8 +1,21 @@
-import { GeckoSVGElement } from '@elements/GeckoSVGElement';
+import { createSVGElement } from '../../../geckosvg';
+import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
-export class GeckoSVGTextElement extends GeckoSVGElement<SVGTextElement> {
+export class GeckoSVGTextElement extends GeckoSVGRenderableElement<SVGTextElement> {
     constructor(){
         super();
-        throw Error('Not implemented yet');
+        this.$el = createSVGElement('text') as SVGTextElement;
     }
+
+    text(text:string){
+        this.$el.textContent = text;
+        return this;
+    }
+
+    pos(x:number, y:number){
+        this.$el.setAttribute('x', x+'');
+        this.$el.setAttribute('y', y+'');
+        return this;
+     }
+  
 }

@@ -1,4 +1,4 @@
-import { createSVGElement } from "geckosvg";
+import { createSVGElement } from "../../geckosvg";
 import { GeckoSVGContainerElement } from "./GeckoSVGContainerElement";
 
 export class GeckoSVGAElement extends GeckoSVGContainerElement<SVGAElement>{

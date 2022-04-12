@@ -1,4 +1,4 @@
-import {GeckoSVGContainerElement} from '@elements/container/GeckoSVGContainerElement';
+import { GeckoSVGContainerElement } from "./container/GeckoSVGContainerElement";
 
 export class GeckoSVGElement<T extends SVGElement> {
    $el!:T;

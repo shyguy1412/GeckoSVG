@@ -1,4 +1,4 @@
-import { GeckoSVGElement } from '@elements/GeckoSVGElement';
+import { GeckoSVGElement } from "../GeckoSVGElement";
 
 export class GeckoSVGFEBlendElement extends GeckoSVGElement<SVGFEBlendElement> {
     constructor(){

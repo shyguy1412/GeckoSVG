@@ -15,22 +15,10 @@
     ],
     "outDir": "dist",
     "declaration": true,
-    "baseUrl": "src",
-    "paths": {
-      "@elements/*": [
-        "elements/*"
-      ],
-      "geckosvg": [
-         "geckosvg"
-      ]
-    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "test/**/*.ts",
-    "test/**/*.d.ts",
-    "test/**/*.tsx",
+    "src/**/*.tsx"
   ]
 }

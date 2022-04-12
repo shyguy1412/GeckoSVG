@@ -1,6 +1,13 @@
-import { GeckoSVGAElement } from '@elements/container/GeckoSVGAElement';
-import { GeckoSVGElement } from '@elements/GeckoSVGElement';
-import {GeckoSVGRectElement} from '@elements/renderable/shape/GeckoSVGRectElement';
+import { GeckoSVGAElement } from "./elements/container/GeckoSVGAElement";
+import { GeckoSVGPolygonElement } from "./elements/renderable/shape/GeckoSVGPolygonElement";
+import { GeckoSVGRectElement } from "./elements/renderable/shape/GeckoSVGRectElement";
+import { GeckoSVGTextElement } from "./elements/renderable/text/GeckoSVGTextElement";
+
+interface GeckoSVGConstructor {
+   new(): GeckoSVG;
+   tag: string,
+}
+
 
 export class GeckoSVG extends HTMLElement{
    fill!: string;
@@ -79,15 +86,35 @@ export class GeckoSVG extends HTMLElement{
    * @param height Height of rectangle
    */
    rect(x: number, y: number, width: number, height: number):GeckoSVGRectElement {
-      return new GeckoSVGRectElement().parent(this.root)
+      return new GeckoSVGRectElement()
+      .parent(this.root)
       .pos(x, y)
       .width(width)
       .height(height);
    }
 
-   a(){
+   /**
+    * 
+    * @param href link location
+    * @returns GeckoSVGAElement
+    */
+   a(href=''){
       return new GeckoSVGAElement()
-      .parent(this.root);
+      .parent(this.root)
+      .href(href);
+   }
+
+   polygon(points:{x:number,y:number}[]){
+      return new GeckoSVGPolygonElement()
+      .parent(this.root)
+      .points(points);
+   }
+
+   text(text:string, x=0, y=0){
+      return new GeckoSVGTextElement()
+      .parent(this.root)
+      .text(text)
+      .pos(x, y);
    }
 
    static create<T extends GeckoSVG>(type?: new () => T): T {
@@ -110,14 +137,15 @@ export function createSVGElement(type:string) {
 * @params svg SVGElement to apply attributes to
 * @params attributes set of attributes to apply
 */
-export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElement<any>, attributes: GeckoSVGElementOptions<T>) {
-   const attributesList = Object.keys(attributes);
-   for (const attribute of attributesList) {
-      if (attribute != null && attribute != undefined)
-      // @ts-ignore should work!
-      svg.$el.setAttribute(attribute, attributes[attribute].toString());
-   }
-}
+
+// export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElement<any>, attributes: GeckoSVGElementOptions<T>) {
+//    const attributesList = Object.keys(attributes);
+//    for (const attribute of attributesList) {
+//       if (attribute != null && attribute != undefined)
+//       // @ts-ignore should work!
+//       svg.$el.setAttribute(attribute, attributes[attribute].toString());
+//    }
+// }
 
 export function registerComponent(constructor: GeckoSVGConstructor) {
    if (!(constructor.prototype instanceof GeckoSVG || constructor == GeckoSVG)) throw new Error(); //TODO: throw error

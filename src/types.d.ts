@@ -1,18 +1,8 @@
-import { GeckoSVG } from "geckosvg";
-
 export { };
 
+
 declare global {
-
-    // interface GeckoSVG extends HTMLElement {
-    //     tag: string,
-    //     init: () => void,
-    // }
-
-    interface GeckoSVGConstructor {
-        new(): GeckoSVG;
-        tag: string,
-    }
+    
     type GeckoSVGShapeType =
         'rect' |
         'circle' |

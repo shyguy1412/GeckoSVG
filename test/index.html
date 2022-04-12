@@ -18,7 +18,8 @@
     </script>
     <script type="module" src="./tests.ts"></script>
     <script class="mocha-exec">
-      mocha.run();
+    document.addEventListener('DOMContentLoaded', ()=>mocha.run());
+      // mocha.run();
     </script>
   </body>
 </html>

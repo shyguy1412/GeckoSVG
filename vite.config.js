@@ -7,7 +7,8 @@ export default defineConfig({
   root: 'test',
   resolve: {
      alias: {
-        '@elements': resolve(__dirname, 'src/elements')
+        '@elements': resolve(__dirname, 'src/elements'),
+        'geckosvg': resolve(__dirname, 'src/geckosvg')
      }
  }
 })

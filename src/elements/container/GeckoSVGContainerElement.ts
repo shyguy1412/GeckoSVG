@@ -6,8 +6,9 @@ export class GeckoSVGContainerElement<T extends SVGElement> extends GeckoSVGElem
       super();
    }
 
-   appendChild(child:GeckoSVGElement<any>){
-      this.$el.appendChild(child.$el);
+   appendChild(child:SVGElement){
+      this.$el.appendChild(child);
+      return this;
    }
 
 }

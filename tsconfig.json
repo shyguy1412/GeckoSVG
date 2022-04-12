@@ -20,6 +20,9 @@
       "@elements/*": [
         "elements/*"
       ],
+      "geckosvg": [
+         "geckosvg"
+      ]
     }
   },
   "include": [

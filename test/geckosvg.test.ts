@@ -79,9 +79,9 @@ describe('GeckoSVG', () => {
         });
 
         it('can create a element', () => {
-           svg.a()
-           .appendChild(rect)
+           const a = svg.a()
            .href('#');
+           rect.parent(a);
         });
     });
 

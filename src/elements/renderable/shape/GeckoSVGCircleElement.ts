@@ -9,8 +9,8 @@ export class GeckoSVGCircleElement extends GeckoSVGRenderableElement<SVGCircleEl
    }
 
    pos(x:number, y:number){
-      this.$el.setAttribute('x', x+'');
-      this.$el.setAttribute('y', y+'');
+      this.$el.setAttribute('cx', x+'');
+      this.$el.setAttribute('cy', y+'');
       return this;
    }
 

@@ -1,6 +1,6 @@
 {
    "name": "geckosvg",
-   "version": "0.0.3",
+   "version": "0.0.4",
    "main": "dist/geckosvg.js",
    "scripts": {
       "prepare": "tsc",

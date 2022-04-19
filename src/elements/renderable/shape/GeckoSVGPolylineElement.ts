@@ -1,11 +1,11 @@
 import { createSVGElement } from '../../../geckosvg';
 import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
-export class GeckoSVGPolygonElement extends GeckoSVGRenderableElement<SVGPolygonElement>{
+export class GeckoSVGPolylineElement extends GeckoSVGRenderableElement<SVGPolylineElement>{
 
    constructor(){
       super();
-      this.$el = createSVGElement('polygon') as SVGPolygonElement;
+      this.$el = createSVGElement('polyline') as SVGPolylineElement;
    }
 
    points(points:{x:number,y:number}[]){

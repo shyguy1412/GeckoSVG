@@ -1,5 +1,10 @@
 import { GeckoSVGAElement } from "./elements/container/GeckoSVGAElement";
+import { GeckoSVGCircleElement } from "./elements/renderable/shape/GeckoSVGCircleElement";
+import { GeckoSVGEllipseElement } from "./elements/renderable/shape/GeckoSVGEllipseElement";
+import { GeckoSVGLineElement } from "./elements/renderable/shape/GeckoSVGLineElement";
+import { GeckoSVGPathElement } from "./elements/renderable/shape/GeckoSVGPathElement";
 import { GeckoSVGPolygonElement } from "./elements/renderable/shape/GeckoSVGPolygonElement";
+import { GeckoSVGPolylineElement } from "./elements/renderable/shape/GeckoSVGPolylineElement";
 import { GeckoSVGRectElement } from "./elements/renderable/shape/GeckoSVGRectElement";
 import { GeckoSVGTextElement } from "./elements/renderable/text/GeckoSVGTextElement";
 
@@ -115,6 +120,38 @@ export class GeckoSVG extends HTMLElement{
       .parent(this.root)
       .text(text)
       .pos(x, y);
+   }
+
+   circle(x:number, y:number, r:number){
+      return new GeckoSVGCircleElement()
+      .parent(this.root)
+      .pos(x, y)
+      .radius(r);
+   }
+
+   ellipse(x:number, y:number, rx:number, ry=rx){
+      return new GeckoSVGEllipseElement()
+      .parent(this.root)
+      .pos(x, y)
+      .radius(rx, ry);
+   }
+
+   polyline(points:{x:number, y:number}[]){
+      return new GeckoSVGPolylineElement()
+      .parent(this.root)
+      .points(points);
+   }
+
+   line(x1:number, y1:number, x2:number, y2:number){
+      return new GeckoSVGLineElement()
+      .parent(this.root)
+      .line(x1, y1, x2, y2);
+   }
+
+   path(d:string){
+      return new GeckoSVGPathElement()
+      .parent(this.root)
+      .d(d);
    }
 
    static create<T extends GeckoSVG>(type?: new () => T): T {

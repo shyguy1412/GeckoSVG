@@ -14,6 +14,12 @@ export class GeckoSVGRectElement extends GeckoSVGRenderableElement<SVGRectElemen
       return this;
    }
 
+   cornerRadius(rx:number, ry=0){
+      this.$el.setAttribute('rx', rx+'px');
+      this.$el.setAttribute('ry', ry+'px');
+      return this;
+   }
+
    width(width:number){
       this.$el.setAttribute('width', width+'');
       return this;
@@ -21,6 +27,11 @@ export class GeckoSVGRectElement extends GeckoSVGRenderableElement<SVGRectElemen
 
    height(height:number){
       this.$el.setAttribute('height', height+'');
+      return this;
+   }
+
+   pathLength(length:number){
+      this.$el.setAttribute('pathLength', length+'px');
       return this;
    }
 

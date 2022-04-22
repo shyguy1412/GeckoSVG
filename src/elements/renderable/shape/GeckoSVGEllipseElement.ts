@@ -3,25 +3,25 @@ import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
 export class GeckoSVGEllipseElement extends GeckoSVGRenderableElement<SVGEllipseElement>{
 
-   constructor(){
+   constructor() {
       super();
-      this.$el = createSVGElement('ellipse') as SVGEllipseElement;
+      this.$el = createSVGElement('ellipse');
    }
 
-   pos(x:number, y:number){
-      this.$el.setAttribute('cx', x+'');
-      this.$el.setAttribute('cy', y+'');
+   pos(x: number, y: number): this {
+      this.$el.setAttribute('cx', x + '');
+      this.$el.setAttribute('cy', y + '');
       return this;
    }
 
-   radius(x:number, y=x){
-       this.$el.setAttribute('rx', x+'px');
-       this.$el.setAttribute('ry', y+'px');
-       return this;
+   radius(x: number, y = x): this {
+      this.$el.setAttribute('rx', x + 'px');
+      this.$el.setAttribute('ry', y + 'px');
+      return this;
    }
 
-   pathLength(length:number){
-      this.$el.setAttribute('pathLength', length+'px');
+   pathLength(length: number): this {
+      this.$el.setAttribute('pathLength', length + 'px');
       return this;
    }
 

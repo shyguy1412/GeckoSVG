@@ -3,19 +3,19 @@ import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
 export class GeckoSVGPolylineElement extends GeckoSVGRenderableElement<SVGPolylineElement>{
 
-   constructor(){
+   constructor() {
       super();
-      this.$el = createSVGElement('polyline') as SVGPolylineElement;
+      this.$el = createSVGElement('polyline');
    }
 
-   points(points:{x:number,y:number}[]){
+   points(points: { x: number, y: number }[]): this {
       const pointsString = points.reduce((previous, next) => previous + `${next.x}, ${next.y} `, '');
       this.$el.setAttribute('points', pointsString);
       return this;
    }
 
-   pathLength(length:number){
-      this.$el.setAttribute('pathLength', length+'px');
+   pathLength(length: number): this {
+      this.$el.setAttribute('pathLength', length + 'px');
       return this;
    }
 

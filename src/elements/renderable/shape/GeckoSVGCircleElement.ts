@@ -3,24 +3,24 @@ import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
 export class GeckoSVGCircleElement extends GeckoSVGRenderableElement<SVGCircleElement>{
 
-   constructor(){
+   constructor() {
       super();
-      this.$el = createSVGElement('circle') as SVGCircleElement;
+      this.$el = createSVGElement('circle');
    }
 
-   pos(x:number, y:number){
-      this.$el.setAttribute('cx', x+'');
-      this.$el.setAttribute('cy', y+'');
+   pos(x: number, y: number): this {
+      this.$el.setAttribute('cx', x + '');
+      this.$el.setAttribute('cy', y + '');
       return this;
    }
 
-   radius(x:number){
-       this.$el.setAttribute('x', x+'px');
-       return this;
+   radius(x: number): this {
+      this.$el.setAttribute('x', x + 'px');
+      return this;
    }
 
-   pathLength(length:number){
-      this.$el.setAttribute('pathLength', length+'px');
+   pathLength(length: number): this {
+      this.$el.setAttribute('pathLength', length + 'px');
       return this;
    }
 

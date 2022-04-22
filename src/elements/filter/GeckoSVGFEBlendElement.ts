@@ -1,7 +1,7 @@
 import { GeckoSVGElement } from "../GeckoSVGElement";
 
 export class GeckoSVGFEBlendElement extends GeckoSVGElement<SVGFEBlendElement> {
-    constructor(){
+    constructor() {
         super();
         throw Error('Not implemented yet');
     }

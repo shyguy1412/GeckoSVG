@@ -3,35 +3,35 @@ import { GeckoSVGRenderableElement } from '../GeckoSVGRenderableElement';
 
 export class GeckoSVGRectElement extends GeckoSVGRenderableElement<SVGRectElement>{
 
-   constructor(){
+   constructor() {
       super();
-      this.$el = createSVGElement('rect') as SVGRectElement;
+      this.$el = createSVGElement('rect');
    }
 
-   pos(x:number, y:number){
-      this.$el.setAttribute('x', x+'');
-      this.$el.setAttribute('y', y+'');
+   pos(x: number, y: number): this {
+      this.$el.setAttribute('x', x + '');
+      this.$el.setAttribute('y', y + '');
       return this;
    }
 
-   cornerRadius(rx:number, ry=0){
-      this.$el.setAttribute('rx', rx+'px');
-      this.$el.setAttribute('ry', ry+'px');
+   cornerRadius(rx: number, ry = 0): this {
+      this.$el.setAttribute('rx', rx + 'px');
+      this.$el.setAttribute('ry', ry + 'px');
       return this;
    }
 
-   width(width:number){
-      this.$el.setAttribute('width', width+'');
+   width(width: number): this {
+      this.$el.setAttribute('width', width + '');
       return this;
    }
 
-   height(height:number){
-      this.$el.setAttribute('height', height+'');
+   height(height: number): this {
+      this.$el.setAttribute('height', height + '');
       return this;
    }
 
-   pathLength(length:number){
-      this.$el.setAttribute('pathLength', length+'px');
+   pathLength(length: number): this {
+      this.$el.setAttribute('pathLength', length + 'px');
       return this;
    }
 

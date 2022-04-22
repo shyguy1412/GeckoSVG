@@ -3,12 +3,12 @@ import { GeckoSVGContainerElement } from "./GeckoSVGContainerElement";
 
 export class GeckoSVGAElement extends GeckoSVGContainerElement<SVGAElement>{
 
-   constructor(){
+   constructor() {
       super();
-      this.$el = createSVGElement('a') as SVGAElement;
+      this.$el = createSVGElement('a');
    }
 
-   href(href:string){
+   href(href: string): this {
       this.$el.setAttribute('href', href);
       return this;
    }

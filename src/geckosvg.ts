@@ -14,14 +14,14 @@ interface GeckoSVGConstructor {
 }
 
 
-export class GeckoSVG extends HTMLElement{
+export class GeckoSVG extends HTMLElement {
    fill!: string;
 
    static get tag() {
       if (this == GeckoSVG)
-      return 'gecko-svg';
+         return 'gecko-svg';
       else
-      return this.name.toLowerCase().replace(/svg$/, '') + '-svg';
+         return this.name.toLowerCase().replace(/svg$/, '') + '-svg';
    }
 
    set width(width: number) {
@@ -61,9 +61,9 @@ export class GeckoSVG extends HTMLElement{
             if (mutation.type != 'attributes') return;
             const element = mutation.target as HTMLElement;
             if (mutation.attributeName == 'width')
-            element.style.width = element.getAttribute('width') + 'px';
+               element.style.width = element.getAttribute('width') + 'px';
             if (mutation.attributeName == 'height')
-            element.style.height = element.getAttribute('height') + 'px';
+               element.style.height = element.getAttribute('height') + 'px';
             this.root.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
          });
       });
@@ -90,12 +90,12 @@ export class GeckoSVG extends HTMLElement{
    * @param width Width of rectangle
    * @param height Height of rectangle
    */
-   rect(x: number, y: number, width: number, height: number):GeckoSVGRectElement {
+   rect(x: number, y: number, width: number, height: number): GeckoSVGRectElement {
       return new GeckoSVGRectElement()
-      .parent(this.root)
-      .pos(x, y)
-      .width(width)
-      .height(height);
+         .parent(this.root)
+         .pos(x, y)
+         .width(width)
+         .height(height);
    }
 
    /**
@@ -103,55 +103,100 @@ export class GeckoSVG extends HTMLElement{
     * @param href link location
     * @returns GeckoSVGAElement
     */
-   a(href=''){
+   a(href = ''): GeckoSVGAElement {
       return new GeckoSVGAElement()
-      .parent(this.root)
-      .href(href);
+         .parent(this.root)
+         .href(href);
    }
 
-   polygon(points:{x:number,y:number}[]){
+   /**
+    * 
+    * @param points Array of polygon vertices
+    * @returns GeckoSVPolygonElement
+    */
+   polygon(points: { x: number, y: number }[]): GeckoSVGPolygonElement {
       return new GeckoSVGPolygonElement()
-      .parent(this.root)
-      .points(points);
+         .parent(this.root)
+         .points(points);
    }
 
-   text(text:string, x=0, y=0){
+   /**
+    * 
+    * @param text Text content of element
+    * @param x X coordinate of the TextElement
+    * @param y Y coordinate of the TextElement
+    * @returns GeckoSVGTextElement
+    */
+   text(text: string, x = 0, y = 0): GeckoSVGTextElement {
       return new GeckoSVGTextElement()
-      .parent(this.root)
-      .text(text)
-      .pos(x, y);
+         .parent(this.root)
+         .text(text)
+         .pos(x, y);
    }
 
-   circle(x:number, y:number, r:number){
+   /**
+    * 
+    * @param x X coordinate of the cirlce
+    * @param y Y coordinate of the cirlce
+    * @param r radius of the circle
+    * @returns GeckoSVGCircleElement
+    */
+   circle(x: number, y: number, r: number): GeckoSVGCircleElement {
       return new GeckoSVGCircleElement()
-      .parent(this.root)
-      .pos(x, y)
-      .radius(r);
+         .parent(this.root)
+         .pos(x, y)
+         .radius(r);
    }
 
-   ellipse(x:number, y:number, rx:number, ry=rx){
+   /**
+    * 
+    * @param x X coordinate of the ellipse
+    * @param y Y coordinate of the ellipse
+    * @param rx Radius of the ellipse in the X direction
+    * @param ry Radius of the ellipse in the Y direction
+    * @returns GeckoSVGEllipseElement
+    */
+   ellipse(x: number, y: number, rx: number, ry = rx): GeckoSVGEllipseElement {
       return new GeckoSVGEllipseElement()
-      .parent(this.root)
-      .pos(x, y)
-      .radius(rx, ry);
+         .parent(this.root)
+         .pos(x, y)
+         .radius(rx, ry);
    }
 
-   polyline(points:{x:number, y:number}[]){
+   /**
+    * 
+    * @param points Array of polyline vertices
+    * @returns GeckoSVGPolyLineElement
+    */
+   polyline(points: { x: number, y: number }[]): GeckoSVGPolylineElement {
       return new GeckoSVGPolylineElement()
-      .parent(this.root)
-      .points(points);
+         .parent(this.root)
+         .points(points);
    }
 
-   line(x1:number, y1:number, x2:number, y2:number){
+   /**
+    * 
+    * @param x1 X coordinate of the first vertice of the line
+    * @param y1 Y coordinate of the first vertice of the line
+    * @param x2 X coordinate of the second vertice of the line
+    * @param y2 Y coordinate of the second vertice of the line
+    * @returns GeckoSVGLineElement
+    */
+   line(x1: number, y1: number, x2: number, y2: number): GeckoSVGLineElement {
       return new GeckoSVGLineElement()
-      .parent(this.root)
-      .line(x1, y1, x2, y2);
+         .parent(this.root)
+         .line(x1, y1, x2, y2);
    }
 
-   path(d:string){
+   /**
+    * 
+    * @param d d attribute of the path element
+    * @returns GeckoSVGPathElement
+    */
+   path(d: string): GeckoSVGPathElement {
       return new GeckoSVGPathElement()
-      .parent(this.root)
-      .d(d);
+         .parent(this.root)
+         .d(d);
    }
 
    static create<T extends GeckoSVG>(type?: new () => T): T {
@@ -164,16 +209,17 @@ export class GeckoSVG extends HTMLElement{
 
 }
 
+
 //shorthand for document.createElementNS('http://www.w3.org/2000/svg', type)
-export function createSVGElement(type:string) {
+export function createSVGElement<T extends keyof SVGElementTagNameMap>(type: T):SVGElementTagNameMap[T] {
    return document.createElementNS('http://www.w3.org/2000/svg', type);
 }
 
-/**
-* Applies a given set of attributes to an SVG element
-* @params svg SVGElement to apply attributes to
-* @params attributes set of attributes to apply
-*/
+// /**
+// * Applies a given set of attributes to an SVG element
+// * @params svg SVGElement to apply attributes to
+// * @params attributes set of attributes to apply
+// */
 
 // export function applyAttributes<T extends GeckoSVGElementType>(svg: GeckoSVGElement<any>, attributes: GeckoSVGElementOptions<T>) {
 //    const attributesList = Object.keys(attributes);
@@ -184,6 +230,10 @@ export function createSVGElement(type:string) {
 //    }
 // }
 
+/**
+ * Registers a GeckoSVG component
+ * @param constructor Component to register
+ */
 export function registerComponent(constructor: GeckoSVGConstructor) {
    if (!(constructor.prototype instanceof GeckoSVG || constructor == GeckoSVG)) throw new Error(); //TODO: throw error
    if (!window.customElements.get(constructor.tag)) {

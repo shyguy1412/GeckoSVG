@@ -13,7 +13,6 @@ interface GeckoSVGConstructor {
    tag: string,
 }
 
-
 export class GeckoSVG extends HTMLElement {
    fill!: string;
 

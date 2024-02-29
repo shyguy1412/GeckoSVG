@@ -4,7 +4,8 @@
    "main": "build/geckosvg.js",
    "scripts": {
       "watch": "node build.mjs --watch",
-      "build": "node build.mjs"
+      "build": "node build.mjs && tsc",
+      "prepare": "npm run build"
    },
    "author": "Nils Ramstöck",
    "description": "A tool for dynamically creating SVG graphics",

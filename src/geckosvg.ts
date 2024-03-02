@@ -58,11 +58,11 @@ export class GeckoSVG extends HTMLElement {
       const observer = new MutationObserver((mutations) => {
          mutations.forEach((mutation, i) => {
             if (mutation.type != 'attributes') return;
-            const element = mutation.target as HTMLElement;
-            if (mutation.attributeName == 'width')
-               element.style.width = element.getAttribute('width') + 'px';
-            if (mutation.attributeName == 'height')
-               element.style.height = element.getAttribute('height') + 'px';
+            // const element = mutation.target as HTMLElement;
+            // if (mutation.attributeName == 'width')
+            //    element.style.width = element.getAttribute('width') + 'px';
+            // if (mutation.attributeName == 'height')
+            //    element.style.height = element.getAttribute('height') + 'px';
             this.root.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
          });
       });
@@ -72,7 +72,6 @@ export class GeckoSVG extends HTMLElement {
       });
 
       // observer.disconnect();
-
 
       this.fill = '#eee';
    }
@@ -113,7 +112,7 @@ export class GeckoSVG extends HTMLElement {
     * @param points Array of polygon vertices
     * @returns GeckoSVPolygonElement
     */
-   polygon(points: { x: number, y: number }[]): GeckoSVGPolygonElement {
+   polygon(points: { x: number, y: number; }[]): GeckoSVGPolygonElement {
       return new GeckoSVGPolygonElement()
          .parent(this.root)
          .points(points);
@@ -167,7 +166,7 @@ export class GeckoSVG extends HTMLElement {
     * @param points Array of polyline vertices
     * @returns GeckoSVGPolyLineElement
     */
-   polyline(points: { x: number, y: number }[]): GeckoSVGPolylineElement {
+   polyline(points: { x: number, y: number; }[]): GeckoSVGPolylineElement {
       return new GeckoSVGPolylineElement()
          .parent(this.root)
          .points(points);
@@ -199,6 +198,10 @@ export class GeckoSVG extends HTMLElement {
    }
 
    static create<T extends GeckoSVG>(type?: new () => T): T {
+      if (!window.customElements.get(this.tag)) {
+         window.customElements.define(this.tag, this);
+      }
+
       const el = document.createElement(
          type ? (type as unknown as typeof GeckoSVG).tag : this.tag
       ) as T;
@@ -210,7 +213,7 @@ export class GeckoSVG extends HTMLElement {
 
 
 //shorthand for document.createElementNS('http://www.w3.org/2000/svg', type)
-export function createSVGElement<T extends keyof SVGElementTagNameMap>(type: T):SVGElementTagNameMap[T] {
+export function createSVGElement<T extends keyof SVGElementTagNameMap>(type: T): SVGElementTagNameMap[T] {
    return document.createElementNS('http://www.w3.org/2000/svg', type);
 }
 
@@ -229,32 +232,30 @@ export function createSVGElement<T extends keyof SVGElementTagNameMap>(type: T):
 //    }
 // }
 
-/**
- * Registers a GeckoSVG component
- * @param constructor Component to register
- */
-export function registerComponent(constructor: GeckoSVGConstructor) {
-   if (!(constructor.prototype instanceof GeckoSVG || constructor == GeckoSVG)) throw new Error(); //TODO: throw error
-   if (!window.customElements.get(constructor.tag)) {
-      window.customElements.define(constructor.tag, constructor);
-   } else {
-      console.warn(`[GeckoSVG] ${constructor.tag} is already defined`);
-   }
+// /**
+//  * Registers a GeckoSVG component
+//  * @param constructor Component to register
+//  */
+// export function registerComponent(constructor: GeckoSVGConstructor) {
+//    if (!(constructor.prototype instanceof GeckoSVG || constructor == GeckoSVG)) throw new Error(); //TODO: throw error
+//    if (!window.customElements.get(constructor.tag)) {
+//       window.customElements.define(constructor.tag, constructor);
+//    } else {
+//       console.warn(`[GeckoSVG] ${constructor.tag} is already defined`);
+//    }
 
-   //TODO: find better method of setting style
-   if (!document.querySelector(`.${constructor.tag}-style`)) {
-      const style = document.createElement('style');
-      style.classList.add(`${constructor.tag}-style`);
-      style.textContent = `
-      ${constructor.tag}{
-         display: inline-block;
-         user-select: none;
-      }
-      ${constructor.tag} svg{
-         overflow: visible;
-      }`;
-      document.body.appendChild(style);
-   }
-}
-
-registerComponent(GeckoSVG);
+//    //TODO: find better method of setting style
+//    if (!document.querySelector(`.${constructor.tag}-style`)) {
+//       const style = document.createElement('style');
+//       style.classList.add(`${constructor.tag}-style`);
+//       style.textContent = `
+//       ${constructor.tag}{
+//          display: inline-block;
+//          user-select: none;
+//       }
+//       ${constructor.tag} svg{
+//          overflow: visible;
+//       }`;
+//       document.body.appendChild(style);
+//    }
+// }

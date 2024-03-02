@@ -14,8 +14,8 @@ export class GeckoSVGCircleElement extends GeckoSVGRenderableElement<SVGCircleEl
       return this;
    }
 
-   radius(x: number): this {
-      this.$el.setAttribute('x', x + 'px');
+   radius(r: number): this {
+      this.$el.setAttribute('r', r + 'px');
       return this;
    }
 
